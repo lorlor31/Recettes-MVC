@@ -3,11 +3,15 @@
 require __DIR__."/../app/Controllers/MainController.php" ;
 require __DIR__."/../app/Controllers/CatalogController.php" ;
 require __DIR__."/../app/Controllers/ErrorController.php" ;
+
+require __DIR__."/../app/Models/Ingredient.php" ;
+require __DIR__."/../app/Models/Recette.php" ;
 // fichier index.php : FrontController, point d'entrée UNIQUE de notre application !
 
 // on inclut le fichier autoload.php de Composer pour charger toutes nos dépendances
 require_once __DIR__ . '/../vendor/autoload.php';
-dump($_SERVER) ;
+dump($_SERVER['BASE_URI']) ;
+
 // on instancie AltoRouter
 $router = new AltoRouter();
 
@@ -18,13 +22,13 @@ $router->setBasePath($_SERVER['BASE_URI']);
 $router->map('GET', '/', [
     'controller' => 'MainController',
     'method' => 'home'
-], 'home');
+], 'main-home');
 
 // exemple route paramétrique
 $router->map('GET', '/recettes/[i:id]', [
     'controller' => 'CatalogController',
     'method' => 'recettes'
-], 'category');
+], 'catalog-recettes');
 
 
 // on demande à AltoRouter de "matcher" la requête de l'utilisateur avec les routes mappées précédemment
@@ -40,7 +44,7 @@ if($match) {
 
     // DISPATCH
     // on instancie "dynamiquement" le bon contrôleur
-    $controller = new $controllerName();
+    $controller = new $controllerName($router);
     // on appelle "dynamiquement" cette méthode
     $controller->$methodName($match["params"]);
 
@@ -48,7 +52,8 @@ if($match) {
     // $match contient false, ça veut dire que l'URL demandée ne correspond à aucune de nos routes !
 
     // donc ... on envoie une erreur 404 !
-    $controller = new ErrorController();
+    $controller = new ErrorController($router);
     $controller->error404();
 }
 
+dump ($match) ;

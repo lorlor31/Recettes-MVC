@@ -1,0 +1,37 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100dvw;
+    height: 100dvh;
+    font-family: 'Acme', sans-serif;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    align-items: center;
+    background-color: rgb(245, 212, 217);
+}
+
+
+#index-picture{
+    width :30dvi ;
+    height: auto;
+}
+
+
+h1{
+    margin: 0.5rem;
+    font-size: 4rem;
+    font-family: 'Maitree', serif;
+}
+
+ul {
+    margin : 0 ;
+}
+
+testArea {
+    field-sizing : content ;
+}
