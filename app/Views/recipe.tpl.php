@@ -1,66 +1,36 @@
 <?php
 
-dump($viewData->getTitre()) ;
+// dump($recipe->getTitre()) ;
 
-// //Création variable des ingrédients /variable des etapes/quantites selon leur nom ds la bdd
-// foreach($recipe as $RecipeProperty=>$value) {
-//     if (str_contains($RecipeProperty,'ingredient') && $value!=null) {
-//         $ingredients[] = $value ;
-//     }
-//     if (str_contains($RecipeProperty,'step') && $value!=null){
-//         $steps[] = $value ;
-//     }
-//     if (str_contains($RecipeProperty,'quantite') && $value!=null) {
-//         $amounts[] = $value ;
-//     }
-// }
-
-
-// foreach ($ingredients as $ingredient){
-//     $ingredUnitesFromDb[]=dbFromIngredient($pdoRecettes,$ingredient)[0]  ;
-//     }
-// // Création d'un tableau associatif ingrédient->unite avec les données de la BDD
-// foreach ($ingredUnitesFromDb as $key=>$ingredUnite) { 
-//     $ingredUniteArr[$ingredUnite['ingredient']] = $ingredUnite['unite'] ;
-// }
-
-// // Création d'un tableau associatif ingrédient->quantité avec les données de la BDD
-// for ( $i=0 ; $i<count($ingredients) ; $i++) {
-//     $ingredAmountArr[$ingredients[$i]]=$amounts[$i] ;
-// }
-
-// //création d'un objet à partir des data de la BDD, dt les données vt être manipulées pour l'affichage
-// $newRecipeFromDb = new Recipe($recipe['id'],$recipe['titre'],$recipe['image'],$recipe['personne'] ,$ingredAmountArr,$ingredUniteArr,$steps) ;
-
-// //Variables nécessaires
-// $isActiveEditionMode=false ;
 
 //Variables crrspdt aux datas
-$id= $viewData->getId() ;
-$titre= $viewData->getTitre()  ;
-$image=$viewData->getImage()  ;
-$persons= $viewData->getPersonne()  ;
-$ingredient1 = $viewData->getIngredient1() ;
-$quantite1= $viewData->getquantite1() ;
-$ingredient2 = $viewData->getIngredient2() ;
-$quantite2= $viewData->getquantite2() ;
-$ingredient3= $viewData->getIngredient3() ;
-$quantite3= $viewData->getquantite3() ;
-$ingredient4 = $viewData->getIngredient4() ;
-$quantite4= $viewData->getquantite4() ;
-$ingredient5 = $viewData->getIngredient5() ;
-$quantite5= $viewData->getquantite5() ;
-$ingredient6 = $viewData->getIngredient6() ;
-$quantite6= $viewData->getquantite6() ;
+$recipe=$viewData['currentRecette'];
+dump($recipe) ;
+$id= $recipe->getId() ;
+$titre= $recipe->getTitre()  ;
+$image=$recipe->getImage()  ;
+$persons= $recipe->getPersonne()  ;
+$ingredient1 = $recipe->getIngredient1() ;
+$quantite1= $recipe->getquantite1() ;
+$ingredient2 = $recipe->getIngredient2() ;
+$quantite2= $recipe->getquantite2() ;
+$ingredient3= $recipe->getIngredient3() ;
+$quantite3= $recipe->getquantite3() ;
+$ingredient4 = $recipe->getIngredient4() ;
+$quantite4= $recipe->getquantite4() ;
+$ingredient5 = $recipe->getIngredient5() ;
+$quantite5= $recipe->getquantite5() ;
+$ingredient6 = $recipe->getIngredient6() ;
+$quantite6= $recipe->getquantite6() ;
 
-$step1= $viewData->getStep1() ;
-$step2= $viewData->getStep2() ;
-$step3= $viewData->getStep3() ;
-$step4= $viewData->getStep4() ;
-$step5= $viewData->getStep5() ;
-$step6= $viewData->getStep6() ;
-$step7= $viewData->getStep7() ;
-$step8= $viewData->getStep8() ;
+$step1= $recipe->getStep1() ;
+$step2= $recipe->getStep2() ;
+$step3= $recipe->getStep3() ;
+$step4= $recipe->getStep4() ;
+$step5= $recipe->getStep5() ;
+$step6= $recipe->getStep6() ;
+$step7= $recipe->getStep7() ;
+$step8= $recipe->getStep8() ;
 
 ?>
 

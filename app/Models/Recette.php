@@ -3,6 +3,7 @@
 class Recette {
     private $id ;
     private $titre ;
+    private $image ;
     private $personne ;
     private $ingredient1 ;
     private $quantite1 ;
@@ -37,7 +38,6 @@ class Recette {
 		return $recette;
 	}
 	
-
     public function findAll(){
             $sql = 'SELECT recettes.* FROM recettes';
             $pdo = Database::getPDO();
@@ -45,24 +45,6 @@ class Recette {
             $recettesList = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Recette');
             return $recettesList;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Get the value of id
@@ -560,6 +542,26 @@ class Recette {
     public function setStep10($step10)
     {
         $this->step10 = $step10;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of image
+     */ 
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set the value of image
+     *
+     * @return  self
+     */ 
+    public function setImage($image)
+    {
+        $this->image = $image;
 
         return $this;
     }
