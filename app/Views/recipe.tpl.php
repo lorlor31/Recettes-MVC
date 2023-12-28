@@ -51,7 +51,7 @@ $step8= $recipe->getStep8() ;
             <h2>
                 <?= $titre?> pour
                 <span class="numOfPers" data-persons= <?=$persons?> > <?=$persons?> </span>
-                <?php include "./tpl/toggleEditionButton.tpl.php"; ?>
+                <?php require __DIR__."/../Views/toggleEditionButton.tpl.php"; ?>
 
                 <label class="numOfPersLabel invisible" for="numOfPersInput" > <label>
                 <form>
@@ -60,7 +60,7 @@ $step8= $recipe->getStep8() ;
                 </form>
                 personnes
             </h2>
-            <img src="./images/<?=$image?>"/>
+            <img src="<?=$BASE_URL."/assets/img/$image"?>"/>
         </div>
 
         <div class="ingredients">
@@ -69,8 +69,6 @@ $step8= $recipe->getStep8() ;
                         <span class="ingredient"> <?=$ingredient?> :  </span>
                         <span class="amount" data-amount= <?= $amount?>> <?=$amount?> </span>
                         <span class="unit" data-amount= <?= $unit?>> <?=$unit?> </span>
-
-
 
             </ul>
         </div>

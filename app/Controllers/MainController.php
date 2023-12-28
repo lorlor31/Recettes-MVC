@@ -28,10 +28,7 @@ class MainController {
         
            // puis on l'envoie à la vue
            $this->show('home', $dataToSend); */
-        
-        
-        $this->show('home') ;
-
+           $this->show('home'); 
     }
 
     public function informations($params) {  //meme soi on t=utilse  pas parmas on le met en arg

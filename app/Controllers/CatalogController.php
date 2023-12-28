@@ -22,7 +22,8 @@ class CatalogController {
         $recetteModel= new Recette () ;
         $currentRecette = $recetteModel->find($params['id']) ;
         $viewData['currentRecette']=$currentRecette;
-        $this->show('recipe',$viewData) ;
+        return $this->show('recipe',$viewData) ;
+
     }
 
     function __construct($router) {
