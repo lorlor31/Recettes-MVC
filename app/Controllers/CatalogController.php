@@ -19,9 +19,9 @@ class CatalogController {
     }
 
     function recettes($params) {
-        $recetteModel= new Recette () ;
-        $currentRecette = $recetteModel->find($params['id']) ;
-        $viewData['currentRecette']=$currentRecette;
+        $recipeModel= new Recipe () ;
+        $currentRecipe = $recipeModel->find($params['id']) ;
+        $viewData['currentRecipe']=$currentRecipe;
         return $this->show('recipe',$viewData) ;
 
     }

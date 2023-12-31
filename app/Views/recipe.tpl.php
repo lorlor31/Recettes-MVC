@@ -1,6 +1,6 @@
 <?php
 
-// dump($recipe->getTitre()) ;
+var_dump($match) ;
 
 
 //Variables crrspdt aux datas

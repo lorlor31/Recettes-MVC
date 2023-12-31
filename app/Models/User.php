@@ -8,16 +8,25 @@ class User {
     private  $id ;
     private  $name ;
     private  $pwd ;
+//refaie find pour user 
+    public function findById($productId)
+	{
+		
+		$sql = '';
 
+		// Connexion à la BDD
+		$pdo = Database::getPDO();
 
-    public function findAll(){
-    $sql = 'SELECT users.* FROM users';
-    $pdo = Database::getPDO();
-    $pdoStatement = $pdo->query($sql);
-    $usersList = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'User');
-    dump($usersList) ;
-    return $usersList;
-    }
+		// Exécuter la requete SELECT
+		$pdoStatement = $pdo->query($sql);
+
+		// Récupérer les résultats sous forme d'une seule instance de produit
+		// Retourne une instances de Product
+		$product = $pdoStatement->fetchObject('Product');
+
+		// retourner le résultat
+		return $product;
+	}
 
 }
 
@@ -46,5 +55,65 @@ else {
 //Retour 
 if(!empty($GET)){
     header("Location: index.php");
+
+    /**
+     * Get the value of name
+     */ 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @return  self
+     */ 
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pwd
+     */ 
+    public function getPwd()
+    {
+        return $this->pwd;
+    }
+
+    /**
+     * Set the value of pwd
+     *
+     * @return  self
+     */ 
+    public function setPwd($pwd)
+    {
+        $this->pwd = $pwd;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }
 ?>

@@ -6,9 +6,10 @@ class MainController {
 
     public function show($template,$viewData=[]) { 
 
+//Variables dont on a besoin partout
         $BASE_URL=$_SERVER['BASE_URI'];
         $router=$this->router ;
-
+// Essayer d'utiliser un tabl asso ds viewData
         $recipeModel=new Recette() ;
         $recipesList=$recipeModel->findAll();
         $viewData['recipesList']=$recipesList ;

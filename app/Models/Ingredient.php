@@ -5,7 +5,7 @@ require __DIR__."/../Utils/Database.php" ;
 class Ingredient {
     private  $id ;
     private  $name ;
-    private  $unite ;
+    private  $unit ;
 
     public function find($ingredientId)
 	{
@@ -15,7 +15,6 @@ class Ingredient {
 		$ingredient = $pdoStatement->fetchObject('Ingredient');
 		return $ingredient;
 	}
-	
 
     public function findAll(){
             $sql = 'SELECT ingredients.* FROM ingredients';
@@ -24,35 +23,44 @@ class Ingredient {
             $ingredientsList = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Ingredient');
             dump($ingredientsList) ;
             return $ingredientsList;
-
         }
 
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Get the value of unite
+ /**
+     * Get the value of id
      */ 
-    public function getUnite()
+    public function getId()
     {
-        return $this->unite;
+        return $this->id;
     }
 
     /**
-     * Set the value of unite
+     * Set the value of id
      *
      * @return  self
      */ 
-    public function setUnite($unite)
+    public function setId($id)
     {
-        $this->unite = $unite;
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of unit
+     */ 
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * Set the value of unit
+     *
+     * @return  self
+     */ 
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
 
         return $this;
     }
@@ -73,26 +81,6 @@ class Ingredient {
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
 
         return $this;
     }
