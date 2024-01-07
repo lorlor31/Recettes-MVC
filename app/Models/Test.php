@@ -1,49 +1,11 @@
 <?php
 
-namespace recettes\Models ;
-use recettes\Utils\Database ;
-use PDO ;
-
-class Step {
+class Test {
 
     private $id ;
     private $recipe_id ;
     private $step_order ;
     private $description ;
-
-//Fetcher toutes les steps de la recette $id 
-
-    public function findAllStepsByRecipeID($recipeId)
-	{
-		$sql = "SELECT steps.step_order,steps.description FROM steps
-        INNER JOIN recipes ON recipes.id = steps.recipe_id
-        WHERE recipes.id=$recipeId
-        ORDER BY steps.step_order ASC"
-        ;
-		$pdo = Database::getPDO();
-		$pdoStatement = $pdo->query($sql);
-		$steps = $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
-		return $steps;
-	}
-
-//////////////////////////////////////////////////////
-
-    public function find($stepId)
-	{
-		$sql = "SELECT steps.* FROM steps WHERE id=$recipeId";
-		$pdo = Database::getPDO();
-		$pdoStatement = $pdo->query($sql);
-		$step = $pdoStatement->fetchObject('Step');
-		return $step;
-	}
-	
-    public function findAll(){
-            $sql = 'SELECT steps.* FROM steps';
-            $pdo = Database::getPDO();
-            $pdoStatement = $pdo->query($sql);
-            $stepsList = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Step');
-            return $stepsList;
-        }
 
 
     /**

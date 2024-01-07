@@ -14,9 +14,9 @@
     <nav>
     <?php 
     $recipes = $viewData['recipesList'];
-    dump($viewData) ;
+    // dump($recipes) ;
     ?>
     <?php foreach ($recipes as $recipe) { ?>
-        <a href=<?=$router->generate('catalog-recettes', ['id' => $recipe->getID()])?>> <?=$recipe->getTitre() ?> </a>
+        <a href=<?=$router->generate('catalog-recettes', ['id' => $recipe->getID()])?>> <?=$recipe->getTitle() ?> </a>
     <?php } ?>
     </nav>

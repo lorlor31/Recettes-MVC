@@ -1,6 +1,10 @@
 <?php
 
-require __DIR__."/../Utils/Database.php" ;
+namespace recettes\Models ;
+use recettes\Utils\Database ;
+use PDO ;
+
+//require __DIR__."/../Utils/Database.php" ;
 
 class Ingredient {
     private  $id ;
@@ -21,7 +25,7 @@ class Ingredient {
             $pdo = Database::getPDO();
             $pdoStatement = $pdo->query($sql);
             $ingredientsList = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Ingredient');
-            dump($ingredientsList) ;
+            //dump($ingredientsList) ;
             return $ingredientsList;
         }
 

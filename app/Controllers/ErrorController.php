@@ -1,5 +1,5 @@
 <?php
-
+namespace recettes\Controllers ;
 class ErrorController {
 
     public $router ;
@@ -8,7 +8,7 @@ class ErrorController {
         $BASE_URL=$_SERVER['BASE_URI'];
         $router=$this->router ;
 
-        $recipeModel=new Recette() ;
+        $recipeModel=new Recipe() ;
         $recipesList=$recipeModel->findAll();
         $viewData['recipesList']=$recipesList ;
 

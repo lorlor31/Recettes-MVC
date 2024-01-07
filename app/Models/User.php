@@ -1,62 +1,49 @@
-
 <?php
 
-//Recupération data avec GET 
-//à compléter avec SQL
+
+namespace recettes\Models ;
+use recettes\Utils\Database ;
+use PDO ;
+
+
+// $login= !empty($_GET['login']) ? $_GET['login'] : "";
+// $pwd= !empty($_GET['pwd']) ? $_GET['pwd'] : "";
+// $message="";
 class User {
+
 
     private  $id ;
     private  $name ;
     private  $pwd ;
-//refaie find pour user 
-    public function findById($productId)
-	{
-		
-		$sql = '';
 
-		// Connexion à la BDD
+//refaire find pour user _fetcher un seul  user
+    public function findByLogin($login)
+    //fetcher avec execute
+    // {
+    //     $sql = 'SELECT users.*
+    //     FROM users 
+    //     WHERE users.name= :login ;';
+    //     $pdo = Database::getPDO();
+    //     $pdoStatement = $pdo->prepare($sql);
+    //     //$pdoStatement = $pdo->query($sql);
+    //     $pdoStatement->execute([
+    //     'login' => $login,
+    //     ]);
+    //     $user = $pdoStatement->fetchObject('User');
+    //     return $user ;
+    // } 
+    
+	{   dump(gettype($login));
+        // $login=strval($login) ;
+        $sql = "SELECT users.* FROM users WHERE users.name ='lor' ";
 		$pdo = Database::getPDO();
-
-		// Exécuter la requete SELECT
 		$pdoStatement = $pdo->query($sql);
-
-		// Récupérer les résultats sous forme d'une seule instance de produit
-		// Retourne une instances de Product
-		$product = $pdoStatement->fetchObject('Product');
-
-		// retourner le résultat
-		return $product;
+		$user = $pdoStatement->fetchObject('user');
+        dump($user);
+		return $user;
 	}
 
-}
-
-
-$login= !empty($_GET['login']) ? $_GET['login'] : "";
-$pwd= !empty($_GET['pwd']) ? $_GET['pwd'] : "";
-$message="";
-if(empty($login)){
-    $message= "Rentrez votre login !" ;
-}
-else if (in_array($login, $users)==false) {
-    $message= "Vous etes pas ds la bd !" ;
-    $login="";
-}
-else {
-    if(empty($pwd)){
-    $message= "Rentrez votre mot de passe !" ;
-    }
-    else if($usersLoginID[$login]!=$pwd) {
-        $message= "Mot de passe invalide!" ;
-    }
-    else {
-        $message= "Bienvenue {$login} !" ;
-    }
-}
-//Retour 
-if(!empty($GET)){
-    header("Location: index.php");
-
-    /**
+     /**
      * Get the value of name
      */ 
     public function getName()
@@ -116,4 +103,5 @@ if(!empty($GET)){
         return $this;
     }
 }
-?>
+
+

@@ -1,6 +1,11 @@
 <?php
 
-class Recette {
+namespace recettes\Models ;
+use recettes\Utils\Database ;
+use PDO ;
+
+class Recipe {
+
     private $id ;
     private $title ;
     private $picture ;
@@ -11,7 +16,7 @@ class Recette {
 		$sql = "SELECT recipes.* FROM recipes WHERE id=$recipeId";
 		$pdo = Database::getPDO();
 		$pdoStatement = $pdo->query($sql);
-		$recipe = $pdoStatement->fetchObject('Recipe');
+		$recipe = $pdoStatement->fetchObject(self::class);
 		return $recipe;
 	}
 	
@@ -19,7 +24,7 @@ class Recette {
             $sql = 'SELECT recipes.* FROM recipes';
             $pdo = Database::getPDO();
             $pdoStatement = $pdo->query($sql);
-            $recipesList = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Recipe');
+            $recipesList = $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
             return $recipesList;
         }
 
@@ -48,7 +53,7 @@ class Recette {
      */ 
     public function getTitle()
     {
-        return $this->Title;
+        return $this->title;
     }
 
     /**
@@ -88,7 +93,7 @@ class Recette {
      */ 
     public function getPicture()
     {
-        return $this->Picture;
+        return $this->picture;
     }
 
     /**

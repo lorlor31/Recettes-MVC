@@ -1,5 +1,9 @@
 <?php
 
+namespace recettes\Controllers ;
+// require __DIR__."/../Models/User.php" ;
+// $login='lor' ;
+
 class MainController {
 
     public $router ;
@@ -9,8 +13,9 @@ class MainController {
 //Variables dont on a besoin partout
         $BASE_URL=$_SERVER['BASE_URI'];
         $router=$this->router ;
-// Essayer d'utiliser un tabl asso ds viewData
-        $recipeModel=new Recette() ;
+// Essayer d'utiliser un tabl asso ds viewData//
+// Récupération de toutes les recettes pour le menu du header       
+        $recipeModel=new Recipe() ;
         $recipesList=$recipeModel->findAll();
         $viewData['recipesList']=$recipesList ;
 
@@ -20,16 +25,34 @@ class MainController {
     } 
 
     public function home($params) {  //meme si on t=utilse  pas params on le met en arg
-        //pour injecter les data à afficher
-/*            // on créé un tableau vide
-           $dataToSend = []; // facultatif
-        
-           // puis on ajoute nos données dans ce tableau associatif
-           $dataToSend['clé'] = "valeur";
-        
-           // puis on l'envoie à la vue
-           $this->show('home', $dataToSend); */
-           $this->show('home'); 
+        // $userModel =new User() ;
+    //  $login=$params['login'] ?? null ;
+        // $isinDB= $userModel->findByLogin($login)  ;
+        // if(empty($login)){
+        //     $message= "Rentrez votre login !" ;
+        // }
+        // else if ($isinDB==false) {
+        //     $message= "Vous etes pas ds la bd !" ;
+        //     $login="";
+        // }
+        // else {
+        //     if(empty($pwd)){
+        //     $message= "Rentrez votre mot de passe !" ;
+        //     }
+        //     else if($usersLoginID[$login]!=$pwd) {
+        //         $message= "Mot de passe invalide!" ;
+        //     }
+        //     else {
+        //         $message= "Bienvenue {$login} !" ;
+        //     }
+        // }
+        // //Retour 
+        // if(!empty($GET)){
+        //     header("Location: index.php");
+        // }
+           
+        $this->show('home'); 
+
     }
 
     public function informations($params) {  //meme soi on t=utilse  pas parmas on le met en arg

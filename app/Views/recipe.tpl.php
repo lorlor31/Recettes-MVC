@@ -1,55 +1,28 @@
 <?php
 
-var_dump($match) ;
-
-
 //Variables crrspdt aux datas
-$recipe=$viewData['currentRecette'];
-dump($recipe) ;
-$id= $recipe->getId() ;
-$titre= $recipe->getTitre()  ;
-$image=$recipe->getImage()  ;
-$persons= $recipe->getPersonne()  ;
-$ingredient1 = $recipe->getIngredient1() ;
-$quantite1= $recipe->getquantite1() ;
-$ingredient2 = $recipe->getIngredient2() ;
-$quantite2= $recipe->getquantite2() ;
-$ingredient3= $recipe->getIngredient3() ;
-$quantite3= $recipe->getquantite3() ;
-$ingredient4 = $recipe->getIngredient4() ;
-$quantite4= $recipe->getquantite4() ;
-$ingredient5 = $recipe->getIngredient5() ;
-$quantite5= $recipe->getquantite5() ;
-$ingredient6 = $recipe->getIngredient6() ;
-$quantite6= $recipe->getquantite6() ;
+$recipe=$viewData['currentRecipe']; //objet 
+$title = $recipe->getTitle() ;
+$picture= $recipe->getPicture() ;
+$persons= $recipe->getPersons() ;
+$ingredients=$viewData['ingredients_list']; //tabl asso
+$steps=$viewData['steps']; //obj
 
-$step1= $recipe->getStep1() ;
-$step2= $recipe->getStep2() ;
-$step3= $recipe->getStep3() ;
-$step4= $recipe->getStep4() ;
-$step5= $recipe->getStep5() ;
-$step6= $recipe->getStep6() ;
-$step7= $recipe->getStep7() ;
-$step8= $recipe->getStep8() ;
 
 ?>
 
  <main>
 
- <h1 <?php if($titre=='Riz au skia') { ?>
-    class="titreRose ">
-            <?php }  ?>
-            <?= $titre ?> </h1>
+ <h1> <?= $title ?> </h1>
         
-    <h1>
-        <?=$titre?>
-    </h1>
+
+       <!-- <?php dump($viewData) ; ?> -->
 
 
 <section class="section" id="firstPart">
         <div class="picture">
             <h2>
-                <?= $titre?> pour
+                <?= $title?> pour
                 <span class="numOfPers" data-persons= <?=$persons?> > <?=$persons?> </span>
                 <?php require __DIR__."/../Views/toggleEditionButton.tpl.php"; ?>
 
@@ -60,16 +33,18 @@ $step8= $recipe->getStep8() ;
                 </form>
                 personnes
             </h2>
-            <img src="<?=$BASE_URL."/assets/img/$image"?>"/>
+            <img src="<?=$BASE_URL."/assets/img/$picture"?>"/>
         </div>
 
         <div class="ingredients">
             <ul>
-                 <li>
-                        <span class="ingredient"> <?=$ingredient?> :  </span>
-                        <span class="amount" data-amount= <?= $amount?>> <?=$amount?> </span>
-                        <span class="unit" data-amount= <?= $unit?>> <?=$unit?> </span>
-
+                <?php foreach ($ingredients as $ingredient) { ?>
+                 <li> 
+                        <span class="ingredient"> <?=$ingredient['name']?> :  </span>
+                        <span class="amount" data-amount= <?= $ingredient['amount']?>> <?= $ingredient['amount']?></span>
+                        <span class="unit" data-amount= <?= $ingredient['unit']?>> <?=$ingredient['unit']?> </span>
+                </li>
+                <?php } ?>
             </ul>
         </div>
 
@@ -80,7 +55,7 @@ $step8= $recipe->getStep8() ;
         <p>
             <ol>
             <?php foreach ($steps as $step){?>
-                <li> <?php echo ucfirst($step)?>  </li>
+                <li><?=$step->getDescription()?> </li>
             <?php }?>
             </ol>
         </p>
@@ -90,4 +65,3 @@ $step8= $recipe->getStep8() ;
         <h2> Commentaires </h2>
     </section>
 </main>
- -->

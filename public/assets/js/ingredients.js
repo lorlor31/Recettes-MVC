@@ -8,6 +8,8 @@ console.log(numOfPersDefault);
 let customNumOfPers=numOfPersDefault;
 const ingredientsElements = document.querySelectorAll(".ingredients ul li") ;
 
+console.log(ingredientsElements) ;
+/* 
 const handleUserInput = function (event) {
     event.preventDefault();
     if (customNumOfPers==numOfPersDefault) {
@@ -34,3 +36,4 @@ const calcCustomIngredients = function (ingredientDep,ingredientElement) {
     ingredientEnd=ingredientDep/numOfPersDep*customNumOfPers ;
     ingredientElement.querySelector("span").textContent=ingredientEnd ; 
 }
+ */

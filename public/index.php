@@ -1,16 +1,21 @@
 <?php
 
-require __DIR__."/../app/Controllers/MainController.php" ;
-require __DIR__."/../app/Controllers/CatalogController.php" ;
-require __DIR__."/../app/Controllers/ErrorController.php" ;
+use recettes\Controllers\MainController as MainController;
+// use recettes\Controllers\CatalogController ;
+// use recettes\Controllers\ErrorController ;
+// use recettes\Models\Ingredients_list ;
+// use recettes\Models\Recipe ;
+// use recettes\Models\Step ;
+// use recettes\Models\User ;
 
-require __DIR__."/../app/Models/Ingredient.php" ;
-require __DIR__."/../app/Models/Recette.php" ;
+$nameSpaceControllers='recettes\\Controllers\\' ;
+//require __DIR__."/../app/Models/Ingredient.php" ;
+
 // fichier index.php : FrontController, point d'entrée UNIQUE de notre application !
 
 // on inclut le fichier autoload.php de Composer pour charger toutes nos dépendances
 require_once __DIR__ . '/../vendor/autoload.php';
-dump($_SERVER['BASE_URI']) ;
+//dump($_SERVER['BASE_URI']) ;
 
 // on instancie AltoRouter
 $router = new AltoRouter();
@@ -23,6 +28,11 @@ $router->map('GET', '/', [
     'controller' => 'MainController',
     'method' => 'home'
 ], 'main-home');
+
+$router->map('GET', '/home/[a:login]', [
+    'controller' => 'MainController',
+    'method' => 'home'
+], 'main-home/');
 
 // exemple route paramétrique
 $router->map('GET', '/recettes/[i:id]', [
@@ -39,12 +49,13 @@ if($match) {
     // il y a eu "match", l'URL demandée correspond à une de nos routes
 
     // on récupère le nom du contrôleur & le nom de la méthode
-    $controllerName = $match["target"]["controller"];
+    //$controllerName = $match["target"]["controller"];
+    $controllerName = $nameSpaceControllers.$match["target"]["controller"];
     $methodName = $match["target"]["method"];
 
     // DISPATCH
     // on instancie "dynamiquement" le bon contrôleur
-    $controller = new $controllerName($router);
+    $controller = new $controllerName ($router);
     // on appelle "dynamiquement" cette méthode
     $controller->$methodName($match["params"]);
 
@@ -55,5 +66,3 @@ if($match) {
     $controller = new ErrorController($router);
     $controller->error404();
 }
-
-dump ($match) ;

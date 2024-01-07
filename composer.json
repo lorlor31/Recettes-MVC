@@ -2,5 +2,10 @@
     "require": {
         "altorouter/altorouter": "^2.0",
         "symfony/var-dumper": "^6.4"
-    }
+    },
+    "autoload": {
+		"psr-4": {
+			"recettes\\": "app/"
+		}
+	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace recettes\Utils ;
+use PDO ;
 // Retenir son utilisation  => Database::getPDO()
 // Design Pattern : Singleton
 class Database
