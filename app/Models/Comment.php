@@ -11,13 +11,13 @@ class Comment {
     private $user_id ;
     private $comment ;
     private $created_at;
-    private $user_name;
+    private $user_login;
     
 //Fetcher tous les commentaires de la recette $id 
 
     public static function findAllCommentsWithUserNameByRecipeID($recipeId)
 	{
-		$sql = "SELECT comments.* ,users.name AS user_name
+		$sql = "SELECT comments.* ,users.name AS user_login
         FROM comments
         INNER JOIN recipes ON recipes.id = comments.recipe_id
         INNER JOIN users ON users.id = comments.user_id
@@ -151,21 +151,21 @@ class Comment {
     }
 
     /**
-     * Get the value of user_name
+     * Get the value of user_login
      */ 
-    public function getUser_name()
+    public function getUser_login()
     {
-        return $this->user_name;
+        return $this->user_login;
     }
 
     /**
-     * Set the value of user_name
+     * Set the value of user_login
      *
      * @return  self
      */ 
-    public function setUser_name($user_name)
+    public function setUser_login($user_login)
     {
-        $this->user_name = $user_name;
+        $this->user_login = $user_login;
 
         return $this;
     }

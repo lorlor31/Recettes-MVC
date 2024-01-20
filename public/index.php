@@ -1,44 +1,64 @@
 <?php
 
-//use recettes\Controllers\MainController as MainController;
-// use recettes\Controllers\CatalogController ;
-// use recettes\Controllers\ErrorController ;
-// use recettes\Models\Ingredients_list ;
-// use recettes\Models\Recipe ;
-// use recettes\Models\Step ;
-// use recettes\Models\User ;
-
 $nameSpaceControllers='recettes\\Controllers\\' ;
-//require __DIR__."/../app/Models/Ingredient.php" ;
 
-// fichier index.php : FrontController, point d'entrée UNIQUE de notre application !
+session_start();
 
-// on inclut le fichier autoload.php de Composer pour charger toutes nos dépendances
 require_once __DIR__ . '/../vendor/autoload.php';
-//dump($_SERVER['BASE_URI']) ;
 
-// on instancie AltoRouter
 $router = new AltoRouter();
 
-// on doit définir le dossier dans lequel se trouve notre projet
 $router->setBasePath($_SERVER['BASE_URI']);
 
-// exemple route page d'accueil
+// ROUTES
 $router->map('GET', '/', [
     'controller' => 'MainController',
     'method' => 'home'
 ], 'main-home');
 
-$router->map('GET', '/home/[a:login]', [
-    'controller' => 'MainController',
-    'method' => 'home'
-], 'main-home/');
-
-// exemple route paramétrique
+// ROUTES RECETTES
 $router->map('GET', '/recettes/[i:id]', [
     'controller' => 'CatalogController',
     'method' => 'recettes'
 ], 'catalog-recettes');
+
+// ROUTES USER SPACES
+$router->map('GET', '/user/[a:login]', [
+    'controller' => 'UserController',
+    'method' => 'user'
+], 'user-space/');
+
+// ROUTES SECURITY
+
+$router->map(
+    'GET',
+    '/home/login',
+    [
+        'method' => 'login',
+        'controller' => 'SecurityController'
+    ],
+    'security-login'
+);
+
+$router->map(
+    'POST',
+    '/home/login',
+    [
+        'method' => 'loginPost',
+        'controller' => 'SecurityController'
+    ],
+    'security-loginpost'
+);
+
+$router->map(
+    'GET',
+    '/home/logout',
+    [
+        'method' => 'logout',
+        'controller' => 'SecurityController'
+    ],
+    'security-logout'
+);
 
 
 // on demande à AltoRouter de "matcher" la requête de l'utilisateur avec les routes mappées précédemment
@@ -55,7 +75,7 @@ if($match) {
 
     // DISPATCH
     // on instancie "dynamiquement" le bon contrôleur
-    $controller = new $controllerName ($router);
+    $controller = new $controllerName ($router,$match);
     // on appelle "dynamiquement" cette méthode
     $controller->$methodName($match["params"]);
 
@@ -63,6 +83,7 @@ if($match) {
     // $match contient false, ça veut dire que l'URL demandée ne correspond à aucune de nos routes !
 
     // donc ... on envoie une erreur 404 !
-    $controller = new ErrorController($router);
+    $errorControllerName=$nameSpaceControllers.'ErrorController';
+    $controller = new $errorControllerName($router);
     $controller->error404();
 }

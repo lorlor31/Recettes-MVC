@@ -65,7 +65,7 @@ $comments=$viewData['comments']; //obj
         <h2> Commentaires </h2>
         
         <?php foreach ($comments as $comment) { ?>
-                <li><?=$comment->getUser_name()?> a écrit : <span><?=$comment->getComment()?></span>  </li>
+                <li><?=$comment->getUser_login()?> a écrit : <span><?=$comment->getComment()?></span>  </li>
         <?php }?>
         
     </section>
