@@ -7,7 +7,7 @@ $picture= $recipe->getPicture() ;
 $persons= $recipe->getPersons() ;
 $ingredients=$viewData['ingredients_list']; //tabl asso
 $steps=$viewData['steps']; //obj
-
+$comments=$viewData['comments']; //obj
 
 ?>
 
@@ -16,7 +16,7 @@ $steps=$viewData['steps']; //obj
  <h1> <?= $title ?> </h1>
         
 
-       <!-- <?php dump($viewData) ; ?> -->
+       <?php dump($router->match());?>
 
 
 <section class="section" id="firstPart">
@@ -63,5 +63,10 @@ $steps=$viewData['steps']; //obj
 
     <section class="section" id="commentaires">
         <h2> Commentaires </h2>
+        
+        <?php foreach ($comments as $comment) { ?>
+                <li><?=$comment->getUser_name()?> a écrit : <span><?=$comment->getComment()?></span>  </li>
+        <?php }?>
+        
     </section>
 </main>

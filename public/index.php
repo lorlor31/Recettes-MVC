@@ -1,6 +1,6 @@
 <?php
 
-use recettes\Controllers\MainController as MainController;
+//use recettes\Controllers\MainController as MainController;
 // use recettes\Controllers\CatalogController ;
 // use recettes\Controllers\ErrorController ;
 // use recettes\Models\Ingredients_list ;

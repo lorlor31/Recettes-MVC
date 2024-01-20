@@ -1,8 +1,7 @@
 <?php
 
 namespace recettes\Controllers ;
-// require __DIR__."/../Models/User.php" ;
-// $login='lor' ;
+use recettes\Models\Recipe ;
 
 class MainController {
 
@@ -11,8 +10,10 @@ class MainController {
     public function show($template,$viewData=[]) { 
 
 //Variables dont on a besoin partout
+        
         $BASE_URL=$_SERVER['BASE_URI'];
         $router=$this->router ;
+        dump($router->match());
 // Essayer d'utiliser un tabl asso ds viewData//
 // Récupération de toutes les recettes pour le menu du header       
         $recipeModel=new Recipe() ;
@@ -25,31 +26,7 @@ class MainController {
     } 
 
     public function home($params) {  //meme si on t=utilse  pas params on le met en arg
-        // $userModel =new User() ;
-    //  $login=$params['login'] ?? null ;
-        // $isinDB= $userModel->findByLogin($login)  ;
-        // if(empty($login)){
-        //     $message= "Rentrez votre login !" ;
-        // }
-        // else if ($isinDB==false) {
-        //     $message= "Vous etes pas ds la bd !" ;
-        //     $login="";
-        // }
-        // else {
-        //     if(empty($pwd)){
-        //     $message= "Rentrez votre mot de passe !" ;
-        //     }
-        //     else if($usersLoginID[$login]!=$pwd) {
-        //         $message= "Mot de passe invalide!" ;
-        //     }
-        //     else {
-        //         $message= "Bienvenue {$login} !" ;
-        //     }
-        // }
-        // //Retour 
-        // if(!empty($GET)){
-        //     header("Location: index.php");
-        // }
+      
            
         $this->show('home'); 
 
