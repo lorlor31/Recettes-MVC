@@ -1,7 +1,7 @@
 <?php
 
 
-namespace recettes\Models ;
+loginspace recettes\Models ;
 use recettes\Utils\Database ;
 use PDO ;
 
@@ -11,54 +11,57 @@ use PDO ;
 // $message="";
 class User {
 
-
     private  $id ;
-    private  $name ;
+    private  $login ;
     private  $pwd ;
 
-//refaire find pour user _fetcher un seul  user
-    public function findByLogin($login)
-    //fetcher avec execute
-    // {
-    //     $sql = 'SELECT users.*
-    //     FROM users 
-    //     WHERE users.name= :login ;';
-    //     $pdo = Database::getPDO();
-    //     $pdoStatement = $pdo->prepare($sql);
-    //     //$pdoStatement = $pdo->query($sql);
-    //     $pdoStatement->execute([
-    //     'login' => $login,
-    //     ]);
-    //     $user = $pdoStatement->fetchObject('User');
-    //     return $user ;
-    // } 
-    
-	{   dump(gettype($login));
-        // $login=strval($login) ;
-        $sql = "SELECT users.* FROM users WHERE users.name ='lor' ";
+
+
+    public function insert()
+    {
+        $pdo = Database::getPDO();
+        $sql = "INSERT INTO `product` (`id`, `login`, `pwd`)
+                VALUES (:id, :login, :pwd);";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':login', $this->login);
+        $stmt->bindParam(':pwd', $this->pwd);
+
+        $success = $stmt->execute();
+        if ($success === true) {
+            $this->id = $pdo->lastInsertId();
+            return true;
+        }
+        return false;
+    }
+
+    public static function findByLogin($login){
 		$pdo = Database::getPDO();
-		$pdoStatement = $pdo->query($sql);
-		$user = $pdoStatement->fetchObject('user');
+        $sql = "SELECT users.* FROM users WHERE users.login =:login";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':login', $login);
+        $stmt->execute();
+        $user =  $stmt->fetchObject(self::class);
         dump($user);
 		return $user;
 	}
 
      /**
-     * Get the value of name
+     * Get the value of login
      */ 
-    public function getName()
+    public function getLogin()
     {
-        return $this->name;
+        return $this->login;
     }
 
     /**
-     * Set the value of name
+     * Set the value of login
      *
      * @return  self
      */ 
-    public function setName($name)
+    public function setLogin($login)
     {
-        $this->name = $name;
+        $this->login = $login;
 
         return $this;
     }

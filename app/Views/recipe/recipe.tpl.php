@@ -24,7 +24,7 @@ $comments=$viewData['comments']; //obj
             <h2>
                 <?= $title?> pour
                 <span class="numOfPers" data-persons= <?=$persons?> > <?=$persons?> </span>
-                <?php require __DIR__."/../Views/toggleEditionButton.tpl.php"; ?>
+                <?php require __DIR__."/../Views/layout/toggleEditionButton.tpl.php"; ?>
 
                 <label class="numOfPersLabel invisible" for="numOfPersInput" > <label>
                 <form>

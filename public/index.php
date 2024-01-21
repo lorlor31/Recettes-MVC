@@ -28,11 +28,11 @@ $router->map('GET', '/user/[a:login]', [
     'method' => 'user'
 ], 'user-space/');
 
-// ROUTES SECURITY
+// // ROUTES SECURITY
 
 $router->map(
     'GET',
-    '/home/login',
+    '/security/login',
     [
         'method' => 'login',
         'controller' => 'SecurityController'
@@ -42,7 +42,7 @@ $router->map(
 
 $router->map(
     'POST',
-    '/home/login',
+    '/security/login',
     [
         'method' => 'loginPost',
         'controller' => 'SecurityController'
@@ -52,7 +52,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/home/logout',
+    '/security/logout',
     [
         'method' => 'logout',
         'controller' => 'SecurityController'

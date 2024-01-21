@@ -4,24 +4,34 @@ namespace recettes\Controllers ;
 use recettes\Models\Recipe ;
 class CoreController {
 
-public $router ;
+protected $router ;
 
 protected function show($template,$viewData=[]) { 
 
     //Variables dont on a besoin partout
-        
         $BASE_URL=$_SERVER['BASE_URI'];
         $router=$this->router ;
-        dump($router->match());
-    // Essayer d'utiliser un tabl asso ds viewData//
-    // Récupération de toutes les recettes pour le menu du header       
+        //dump($router->match());
+        $viewData['currentPage'] = $viewName;
+        $viewData['assetsBaseUri'] = $_SERVER['BASE_URI'] . 'assets/';
+        // définir l'url absolue pour la racine du site
+        // /!\ != racine projet, ici on parle du répertoire public/
+        $viewData['baseUri'] = $_SERVER['BASE_URI'];
+
+        // On veut désormais accéder aux données de $viewData, mais sans accéder au tableau
+        // La fonction extract permet de créer une variable pour chaque élément du tableau passé en argument
+        //extract($viewData);
+        // => la variable $currentPage existe désormais, et sa valeur est $viewName
+        // => la variable $assetsBaseUri existe désormais, et sa valeur est $_SERVER['BASE_URI'] . '/assets/'
+        // => la variable $baseUri existe désormais, et sa valeur est $_SERVER['BASE_URI']
+        // => il en va de même pour chaque élément du tableau
         $recipeModel=new Recipe() ;
         $recipesList=$recipeModel->findAll();
         $viewData['recipesList']=$recipesList ;
 
-        require __DIR__.'/../Views/header.tpl.php' ;
-        require __DIR__."/../Views/$template.tpl.php" ;
-        require __DIR__.'/../Views/footer.tpl.php' ;
+        require __DIR__.'/../Views/layout/header.tpl.php' ;
+        require __DIR__."/../Views/layout/$template.tpl.php" ;
+        require __DIR__.'/../Views/layout/footer.tpl.php' ;
 } 
 
 public function __construct($router, $match=[]){
@@ -30,7 +40,7 @@ public function __construct($router, $match=[]){
 
     $acl = [
             //'login' => page accessible à tout le monde, donc on ne la met pas dans le tableau !
-            'main-home' => ['admin', 'catalog-manager'],
+            // 'main-home' => ['admin', 'catalog-manager'],
             'category-list' => ['admin', 'catalog-manager'],
             // ...
             'appuser-list' => ['admin'],

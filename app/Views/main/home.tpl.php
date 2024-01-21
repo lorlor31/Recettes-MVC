@@ -17,4 +17,10 @@
     <h2> Une famille régalée sans trop (se) dépenser</h2>
     <img src="<?=$BASE_URL."/assets/img/family-lunch.jpg"?>" alt="family eating picture" id="index-picture">
     
-    <p> php$messagephp </p> 
+    <div>
+        <?php 
+        $errors = $viewData['errors'];
+        foreach ($errors as $error) {?>
+        <li> <?=$error?> </li>
+        <?php } ?>
+    </div>

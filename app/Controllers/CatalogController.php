@@ -5,10 +5,9 @@ use recettes\Models\Recipe ;
 use recettes\Models\Ingredients_list ;
 use recettes\Models\Step ;
 use recettes\Models\Comment ;
-//use recettes\Models\Ingredients_list ;
 use recettes\Utils\Database ;
 
-class CatalogController {
+class CatalogController extends CoreController {
 
     public $router ;
     
@@ -22,9 +21,9 @@ class CatalogController {
     $recipeModel=new Recipe() ;
     $recipesList=$recipeModel->findAll();
     $viewData['recipesList']=$recipesList ;
-        require __DIR__.'/../Views/header.tpl.php' ;
+        require __DIR__.'/../Views/layout/header.tpl.php' ;
         require __DIR__."/../Views/$viewname.tpl.php" ;
-        require __DIR__.'/../Views/footer.tpl.php' ;
+        require __DIR__.'/../Views/layout/footer.tpl.php' ;
     }
 
     function recettes($params) {
