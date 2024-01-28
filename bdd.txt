@@ -1,0 +1,85 @@
+-- Adminer 4.8.1 MySQL 8.0.35-0ubuntu0.22.04.1 dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `recipe_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `comment` mediumtext NOT NULL,
+  `created_at` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `recipe_id` (`recipe_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`),
+  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `ingredients`;
+CREATE TABLE `ingredients` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `unit` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `ingredients_list`;
+CREATE TABLE `ingredients_list` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `recipe_id` int NOT NULL,
+  `ingredient_id` int NOT NULL,
+  `amount` int NOT NULL,
+  `ingredient_order` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ingredient_id` (`ingredient_id`),
+  KEY `recipe_id` (`recipe_id`),
+  CONSTRAINT `ingredients_list_ibfk_1` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`),
+  CONSTRAINT `ingredients_list_ibfk_2` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `recipes`;
+CREATE TABLE `recipes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `persons` int NOT NULL,
+  `picture` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `steps`;
+CREATE TABLE `steps` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `step_order` int NOT NULL,
+  `recipe_id` int NOT NULL,
+  `description` tinytext NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `recipe_id` (`recipe_id`),
+  CONSTRAINT `steps_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `login` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `pwd` varchar(100) NOT NULL,
+  `role` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `users` (`id`, `login`, `pwd`, `role`, `created_at`, `updated_at`) VALUES
+(22,	'lor',	'$2y$10$WmfgwVu6wj.CmtKGojbKsu3AHHvn/PMa7O4UPEZ.A5A6hNIovv.Q2',	'admin',	'2024-01-23 15:46:16',	'2024-01-23 15:46:16');
+
+-- 2024-01-28 16:40:18
