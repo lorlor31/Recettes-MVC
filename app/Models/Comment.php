@@ -17,7 +17,7 @@ class Comment {
 
     public static function findAllCommentsWithUserNameByRecipeID($recipeId)
 	{
-		$sql = "SELECT comments.* ,users.name AS user_login
+		$sql = "SELECT comments.* ,users.login AS user_login
         FROM comments
         INNER JOIN recipes ON recipes.id = comments.recipe_id
         INNER JOIN users ON users.id = comments.user_id

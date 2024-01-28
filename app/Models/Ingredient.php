@@ -4,8 +4,6 @@ namespace recettes\Models ;
 use recettes\Utils\Database ;
 use PDO ;
 
-//require __DIR__."/../Utils/Database.php" ;
-
 class Ingredient {
     private  $id ;
     private  $name ;

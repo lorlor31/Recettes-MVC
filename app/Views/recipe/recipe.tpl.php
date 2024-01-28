@@ -1,13 +1,12 @@
 <?php
 
-//Variables crrspdt aux datas
-$recipe=$viewData['currentRecipe']; //objet 
+//pourquoi j'arrive à récupérer les propriétés de la recette $recipe qui est censése sappeler
+//currentRecipe ???
+//dump($viewData) ;
 $title = $recipe->getTitle() ;
 $picture= $recipe->getPicture() ;
 $persons= $recipe->getPersons() ;
-$ingredients=$viewData['ingredients_list']; //tabl asso
-$steps=$viewData['steps']; //obj
-$comments=$viewData['comments']; //obj
+
 
 ?>
 
@@ -15,17 +14,13 @@ $comments=$viewData['comments']; //obj
 
  <h1> <?= $title ?> </h1>
         
-
-       <?php dump($router->match());?>
-
-
 <section class="section" id="firstPart">
         <div class="picture">
             <h2>
                 <?= $title?> pour
                 <span class="numOfPers" data-persons= <?=$persons?> > <?=$persons?> </span>
-                <?php require __DIR__."/../Views/layout/toggleEditionButton.tpl.php"; ?>
-
+                <?= require __DIR__ ."/../layout/toggleEditionButton.tpl.php"; ?>
+    
                 <label class="numOfPersLabel invisible" for="numOfPersInput" > <label>
                 <form>
                 <input class="numOfPersInput invisible" data-persons= <?=$persons?> type="number" 
@@ -38,7 +33,7 @@ $comments=$viewData['comments']; //obj
 
         <div class="ingredients">
             <ul>
-                <?php foreach ($ingredients as $ingredient) { ?>
+                <?php foreach ($ingredients_list as $ingredient) { ?>
                  <li> 
                         <span class="ingredient"> <?=$ingredient['name']?> :  </span>
                         <span class="amount" data-amount= <?= $ingredient['amount']?>> <?= $ingredient['amount']?></span>

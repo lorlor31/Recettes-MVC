@@ -11,7 +11,7 @@ class SecurityController extends CoreController
      */
     public function login()
     {
-        $this->show('login');
+        $this->show('main/login');
     }
 
     /**

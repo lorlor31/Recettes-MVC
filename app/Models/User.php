@@ -1,32 +1,31 @@
 <?php
 
-
-loginspace recettes\Models ;
-use recettes\Utils\Database ;
+namespace recettes\Models ;
 use PDO ;
+use recettes\Utils\Database ;
+use recettes\Models\CoreModel;
 
-
-// $login= !empty($_GET['login']) ? $_GET['login'] : "";
-// $pwd= !empty($_GET['pwd']) ? $_GET['pwd'] : "";
-// $message="";
 class User {
 
-    private  $id ;
+    private $id ;
+    private $created_at ;
+    private $updated_at ;
     private  $login ;
     private  $pwd ;
-
-
+    private  $role ;
 
     public function insert()
     {
         $pdo = Database::getPDO();
-        $sql = "INSERT INTO `product` (`id`, `login`, `pwd`)
-                VALUES (:id, :login, :pwd);";
+        $sql = "INSERT INTO `users` (`id`, `login`, `pwd`,`role`,`created_at`,`updated_at`)
+                VALUES (:id, :login, :pwd,:role,NOW(),NOW());";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':login', $this->login);
         $stmt->bindParam(':pwd', $this->pwd);
-
+        $stmt->bindParam(':role', $this->role);
+        //$stmt->bindParam(':created_at', $this->created_at);
+        //$stmt->bindParam(':updated_at', $this->updated_at);
         $success = $stmt->execute();
         if ($success === true) {
             $this->id = $pdo->lastInsertId();
@@ -42,9 +41,18 @@ class User {
         $stmt->bindParam(':login', $login);
         $stmt->execute();
         $user =  $stmt->fetchObject(self::class);
-        dump($user);
+        print_r($user);
 		return $user;
 	}
+
+    public static function findAll()
+    {
+        $pdo = Database::getPDO();
+        $sql = 'SELECT * FROM `users`';
+        $pdoStatement = $pdo->query($sql);
+        $results = $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
+        return $results;
+    }
 
      /**
      * Get the value of login
@@ -86,6 +94,28 @@ class User {
         return $this;
     }
 
+   
+    
+    /**
+     * Get the value of role
+     */ 
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the value of role
+     *
+     * @return  self
+     */ 
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
     /**
      * Get the value of id
      */ 
@@ -102,6 +132,46 @@ class User {
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */ 
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */ 
+    public function setCreated_at($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */ 
+    public function getUpdated_at()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */ 
+    public function setUpdated_at($updated_at)
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

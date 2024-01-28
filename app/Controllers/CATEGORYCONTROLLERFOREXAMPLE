@@ -1,0 +1,303 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\Category;
+
+class CategoryController extends CoreController
+{
+    /**
+     * Méthode pour afficher la page liste des catégories
+     */
+    public function list()
+    {
+        // $this->checkAuthorization([
+        //     'admin'
+        // ]);
+
+        // on récupère les catégories depuis notre modèle Category
+        // 1. on instancie le modèle
+        $categoryModel = new Category();
+
+        // 2. on utilise la "méthode utilitaire" find, findAll, etc.
+        $categories = $categoryModel->findAll();
+
+        // 3. on envoie les catégories à la vue pour affichage
+        $this->show('category/list', [
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Méthode pour afficher le formulaire d'ajout de catégorie
+     */
+    public function add()
+    {
+        $this->show('category/add');
+    }
+
+    /**
+     * Méthode qui réceptionne les données du formulaire d'ajout (envoyées en POST)
+     */
+    public function addPost()
+    {
+        //global $router;
+
+        // première chose à faire ici : dumper les données envoyées par le form
+        //dd($_POST);
+
+        // première possibilité :
+        // if(isset($_POST['name'])) {
+        //     // name est bien présent dans le form
+        //     $name = $_POST['name'];
+
+        //     dd($name);
+        // } else {
+        //     dd("Erreur !");
+        // }
+
+        // autre option : filter_input()
+        $name = filter_input(INPUT_POST, 'name');
+        $subtitle = filter_input(INPUT_POST, 'subtitle');
+        $picture = filter_input(INPUT_POST, 'picture');
+
+        // on peut vérifier si le champ est null ou pas
+        if(is_null($name) || is_null($subtitle) || is_null($picture)) {
+            dd("Erreur !");
+        }
+
+        // TODO : vérifier si les champs ne sont pas vides, si les champs sont correctement remplis (par exemple si picture contient bien une URL, etc.)
+
+        // on créé une nouvelle catégorie
+        $category = new Category(); 
+        
+        // on renseigne les propriétés de l'objet
+        $category->setName($name);
+        $category->setSubtitle($subtitle);
+        $category->setPicture($picture);
+
+        // on demande à la catégorie de s'insérer en BDD
+        //$category->insert();
+        //* on peut maintenant utiliser la méthode save(), qui détermine s'il faut insert() ou update() !
+        $category->save();
+
+        // TODO : rediriger l'utilisateur si tout s'est bien passé !
+        //dump($category);
+
+        header('Location: ' . $this->router->generate('category-list'));
+        exit;
+    }
+
+    /**
+     * Méthode pour AFFICHER le formulaire de modification de catégorie
+     * 
+     * @param int $id ID de la catégorie à modifier
+     */
+    public function update($id)
+    {
+        // pour pré-remplir le formulaire, il faut qu'on récupère les infos de la catégorie
+        $category = Category::find($id);
+
+        $this->show('category/update', [
+            'category' => $category
+        ]);
+    }
+
+    /**
+     * Méthode qui réceptionne les données du formulaire de modification (envoyées en POST)
+     * 
+     * @param int $id ID de la catégorie à modifier
+     */
+    public function updatePost($id)
+    {
+        //dump($id);
+        //dd($_POST);
+
+        // on récupère les données envoyées depuis le form
+        $name = filter_input(INPUT_POST, 'name');
+        $subtitle = filter_input(INPUT_POST, 'subtitle');
+        $picture = filter_input(INPUT_POST, 'picture', FILTER_VALIDATE_URL);
+
+        // on créé un tableau vide errorList
+        $errorList = [];
+
+        // on peut vérifier si les champs sont bien tous présents
+        if(is_null($name) || is_null($subtitle) || is_null($picture)) {
+            //die("Erreur !");
+            $errorList[] = "Formulaire erronné.";
+        }
+
+        // on peut vérifier si la picture passe le filtre de validation d'URL 
+        if($picture == false) {
+            // ERREUR ! l'URL de l'image est mal-formée
+            //die("URL de l'image mal-formée !");
+            $errorList[] = "URL de l'image mal-formée !";
+        }
+
+        // vérification champs vides :
+        if(empty($name)) {
+            // ERREUR ! le name ne peut pas être vide
+            // die("Le nom ne peut pas être vide !");
+            $errorList[] = "Le nom ne peut pas être vide !";
+        }
+        if(empty($subtitle)) {
+            // ERREUR ! le subtitle ne peut pas être vide
+            // die("Le sous-titre ne peut pas être vide !");
+            $errorList[] = "Le sous-titre ne peut pas être vide !";
+        }
+        // etc.
+
+        // vérification NB caractères :
+        if(mb_strlen($name) > 64) {
+            // ERREUR ! le name doit faire au max 64 caractères !
+            // die("Le nom doit faire moins de 64 caractères !");
+            $errorList[] = "Le nom doit faire moins de 64 caractères !";
+        }
+        if(mb_strlen($name) < 5) {
+            // ERREUR ! le name doit faire au minimum 5 caractères !
+            // die("Le nom doit faire plus de 5 caractères !");
+            $errorList[] = "Le nom doit faire plus de 5 caractères !";
+        }
+        // etc.
+
+        // contrairement à dans la méthode addPost, ici on veut modifier une catégorie existante
+        // il faut donc qu'on la récupère !
+        $category = Category::find($id);
+
+        // on met à jour les propriétés de l'objet (avec ce qui a été saisi dans le form)
+        $category->setName($name);
+        $category->setSubtitle($subtitle);
+        $category->setPicture($picture);
+
+        // on demande à la catégorie de se mettre à jour en BDD
+        //! QUE SI on a pas rencontré d'erreur !
+        if(empty($errorList)) {
+            //* on peut maintenant utiliser la méthode save(), qui détermine s'il faut insert() ou update() !
+            if($category->save()) {
+                // save() a renvoyé true, tout s'est bien passé
+
+                // on redirige l'utilisateur si tout s'est bien passé !
+                header('Location: ' . $this->router->generate('category-list'));
+                exit;
+            } else {
+                $errorList[] = "Erreur lors de la sauvegarde en base de données.";
+            }
+        }
+        
+        // si on arrive ici, c'est que quelque-chose s'est mal passé
+        $this->show('category/update', [
+            'category' => $category,
+            'errorList' => $errorList
+        ]);
+    }
+
+    /**
+     * Méthode qui gère la suppression d'une catégorie
+     * 
+     * @param int $id ID de la catégorie à supprimer
+     */
+    public function delete($id)
+    {
+        // on récupère la catégorie à supprimer grâce à son ID
+        $category = Category::find($id);
+
+        // on demande à la catégorie de se supprimer avec sa méthode delete()
+        $category->delete();
+
+        //dd($_SERVER);
+        // $_SERVER["HTTP_REFERER"] contient l'URL d'origine ("d'où on vient" au moment de supprimer), donc on peut rediriger vers cette URL !
+        header('Location: ' . $_SERVER["HTTP_REFERER"]);
+
+        // on redirige l'utilisateur si tout s'est bien passé !
+        //header('Location: ' . $this->router->generate('category-list'));
+        exit;
+    }
+
+    /**
+     * Permet d'afficher le formulaire de sélection des catégories mises en avant sur la home du front-office
+     */
+    public function home()
+    {
+        // on récupère la liste des catégories
+        $categories = Category::findAll();
+
+        $this->show('category/home', [
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Réceptionne le formulaire de sélection des catégories mises en avant sur la home du front-office
+     */
+    public function homePost()
+    {
+        //dd($_POST);
+
+        $errorList = [];
+
+        //$emplacements = filter_input(INPUT_POST, 'emplacement', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        // on peut aussi utiliser : 
+        if(isset($_POST['emplacement'])) {
+            $emplacements = $_POST['emplacement'];
+
+            // pour qu'on ait pas d'erreur, il faut que l'utilisateur ait bien tout rempli !
+            // donc avant tout, on vérifie si tous les selects ont bien été remplis
+            foreach($emplacements as $emplacement => $id_category) {
+                if(empty($id_category)) {
+                    $errorList[] = "Une catégorie doit être sélectionnée pour chaque emplacement !";
+                }
+            }
+
+            // il ne peut pas y avoir de doublons
+            // https://stackoverflow.com/questions/3145607/php-check-if-an-array-has-duplicates
+            if(count($emplacements) !== count(array_unique($emplacements))) {
+                $errorList[] = "Une même catégorie ne peut pas être mise en avant à deux emplacements différents !";
+            }
+
+            // si aucune erreur ne s'est produite, on sauvegarde les modifications en BDD
+            if(empty($errorList)) {
+
+                // Avant de modifier les catégories sélectionnées dans le form,
+                // il faut qu'on réinitialise celle sélectionnées précédemment dans la BDD (remettre leur home_order à 0)
+                // pour se simplifier la tâche, on va réinitialiser TOUTES les catégories !
+                $categories = Category::findAll();
+                foreach($categories as $category) {
+                    // pour chaque category, on remet son home_order à 0 et on save !
+                    $category->setHomeOrder(0);
+                    $category->save();
+                }
+
+                // on boucle sur le tableau d'emplacements  
+                // pour mettre à jour les catégories sélectionnées dans le form
+                foreach($emplacements as $emplacement => $id_category) {
+
+                    // pour récupérer le home_order, on fait $emplacement + 1 (parce que le tableau est indexé de 0 à 4 alors home_order c'est de 1 à 5)
+                    $home_order = $emplacement + 1;
+
+                    // on récupère la catégorie à modifier
+                    $category = Category::find($id_category);
+                    // on modifie son home_order
+                    $category->setHomeOrder($home_order);
+                    // on sauvegarde les modifications 
+                    $category->save();   
+                }
+
+                // on redirige vers la liste des catégories si tout s'est bien passé !
+                header("Location: " . $this->router->generate('category-list'));
+                exit;
+
+            } 
+        } else {
+            $errorList[] = "Données envoyées par le formulaire erronées.";
+        }
+
+        // si on arrive ici, c'est qu'il y a eu une erreur
+        // donc on réaffiche le form avec les erreurs !
+        $categories = Category::findAll();
+
+        $this->show('category/home', [
+            'categories' => $categories,
+            'errorList' => $errorList
+        ]);
+    }
+}

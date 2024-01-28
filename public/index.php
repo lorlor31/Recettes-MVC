@@ -16,6 +16,16 @@ $router->map('GET', '/', [
     'method' => 'home'
 ], 'main-home');
 
+$router->map('GET', '/', [
+    'controller' => 'MainController',
+    'method' => 'logout'
+], 'main-logout');
+
+$router->map('POST', '/', [
+    'controller' => 'MainController',
+    'method' => 'login'
+], 'main-login');
+
 // ROUTES RECETTES
 $router->map('GET', '/recettes/[i:id]', [
     'controller' => 'CatalogController',
@@ -23,10 +33,29 @@ $router->map('GET', '/recettes/[i:id]', [
 ], 'catalog-recettes');
 
 // ROUTES USER SPACES
-$router->map('GET', '/user/[a:login]', [
+$router->map('GET', '/user/space/[a:login]', [
     'controller' => 'UserController',
-    'method' => 'user'
-], 'user-space/');
+    'method' => 'space'
+], 'user-space');
+
+//ROUTES USER- BACKOFFICE
+
+$router->map('GET', '/user/list', [
+    'controller' => 'UserController',
+    'method' => 'list'
+], 'user-list');
+
+$router->map('GET', '/user/add', [
+    'controller' => 'UserController',
+    'method' => 'add'
+], 'user-add');
+
+$router->map('POST', '/user/add', [
+    'controller' => 'UserController',
+    'method' => 'addPost'
+], 'user-addPost');
+
+
 
 // // ROUTES SECURITY
 

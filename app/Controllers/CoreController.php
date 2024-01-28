@@ -1,6 +1,7 @@
 <?php
 
 namespace recettes\Controllers ;
+use recettes\Models\User;
 use recettes\Models\Recipe ;
 class CoreController {
 
@@ -12,28 +13,66 @@ protected function show($template,$viewData=[]) {
         $BASE_URL=$_SERVER['BASE_URI'];
         $router=$this->router ;
         //dump($router->match());
-        $viewData['currentPage'] = $viewName;
+        $viewData['currentPage'] = $template;//àverifier si c ok
         $viewData['assetsBaseUri'] = $_SERVER['BASE_URI'] . 'assets/';
-        // définir l'url absolue pour la racine du site
-        // /!\ != racine projet, ici on parle du répertoire public/
         $viewData['baseUri'] = $_SERVER['BASE_URI'];
-
-        // On veut désormais accéder aux données de $viewData, mais sans accéder au tableau
-        // La fonction extract permet de créer une variable pour chaque élément du tableau passé en argument
-        //extract($viewData);
-        // => la variable $currentPage existe désormais, et sa valeur est $viewName
-        // => la variable $assetsBaseUri existe désormais, et sa valeur est $_SERVER['BASE_URI'] . '/assets/'
-        // => la variable $baseUri existe désormais, et sa valeur est $_SERVER['BASE_URI']
-        // => il en va de même pour chaque élément du tableau
+        extract($viewData);
+        //Liste des recettes pour le menu du header
         $recipeModel=new Recipe() ;
         $recipesList=$recipeModel->findAll();
         $viewData['recipesList']=$recipesList ;
 
-        require __DIR__.'/../Views/layout/header.tpl.php' ;
-        require __DIR__."/../Views/layout/$template.tpl.php" ;
-        require __DIR__.'/../Views/layout/footer.tpl.php' ;
-} 
+        //Gestion de l'authnetification
+        function login($params) {
 
+            /**
+             * Réceptionne le formulaire de login
+             */
+            //    public function loginPost()
+            //{
+                $login = filter_input(INPUT_POST, 'login');
+                $password = filter_input(INPUT_POST, 'pwd');
+        
+                $errors = [];
+                if(is_null($login) || is_null($password)) {
+                    $errors[] = "Formulaire erronné.";
+                }
+                if(empty($login)) {
+                    // ERREUR ! le subtitle ne peut pas être vide
+                    // die("Le sous-titre ne peut pas être vide !");
+                    $errorList[] = "Le login ne peut pas être vide !";
+                }
+                if(empty($password)) {
+                    // ERREUR ! le subtitle ne peut pas être vide
+                    // die("Le sous-titre ne peut pas être vide !");
+                    $errorList[] = "Le password ne peut pas être vide !";
+                }
+                $user = User::findBylogin($login);
+                //dump($user->getLogin()) ;
+                if($user == false) {
+                    $errors[] = "Adresse email ou mot de passe incorrect.";
+                } 
+                else {
+                    if (password_verify($password, $user->getPwd())) {
+                        echo "Bienvenue". $user->getLogin()." !";
+                        $_SESSION['userId'] = $user->getId();
+                        $_SESSION['userObject'] = $user;
+                        header("Location: " .$this->router->generate('user-space', ['login' => $user->getLogin()]));
+                        exit;       
+                    } 
+                    else {
+                        // le mot de passe fourni ne correspond pas à celui en BDD
+                        //! ATTENTION : on ne doit JAMAIS préciser si c'est l'email ou le mdp qui est incorrect.
+                        //die("Adresse email ou mot de passe incorrect.");
+                        $errors[] = "Adresse email ou mot de passe incorrect.";
+                    }
+                }
+            }
+
+        require __DIR__.'/../Views/layout/header.tpl.php' ;
+        require __DIR__."/../Views/$template.tpl.php" ;
+        require __DIR__.'/../Views/layout/footer.tpl.php' ;
+    } 
 public function __construct($router, $match=[]){
     
     $this->router = $router;
@@ -41,12 +80,10 @@ public function __construct($router, $match=[]){
     $acl = [
             //'login' => page accessible à tout le monde, donc on ne la met pas dans le tableau !
             // 'main-home' => ['admin', 'catalog-manager'],
-            'category-list' => ['admin', 'catalog-manager'],
-            // ...
-            'appuser-list' => ['admin'],
-            'appuser-add' => ['admin'],
+            //'user-list' => ['admin'],
+            //'user-add' => ['admin'],
             //! IL NE FAUT PAS OUBLIER DE SECURISER NOS ROUTES EN POST !
-            'appuser-addpost' => ['admin']
+            //'user-addPost' => ['admin']
             // ...
             // TODO : finir de sécuriser toutes les routes qui le nécessitent !
     ];
@@ -63,7 +100,8 @@ public function __construct($router, $match=[]){
         'appuser-addpost', // route en POST
         'category-delete', // route en GET
         'category-homepost',
-        'category-addpost'
+        //'user-addPost',
+        //'user-add'
     ];
 
     // on vérifie si la route actuelle nécessite une vérif CSRF
