@@ -1,10 +1,10 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+session_start();
 $nameSpaceControllers='recettes\\Controllers\\' ;
 
-session_start();
 
-require_once __DIR__ . '/../vendor/autoload.php';
 
 $router = new AltoRouter();
 
@@ -16,7 +16,7 @@ $router->map('GET', '/', [
     'method' => 'home'
 ], 'main-home');
 
-$router->map('GET', '/', [
+$router->map('GET', '/logout', [
     'controller' => 'MainController',
     'method' => 'logout'
 ], 'main-logout');

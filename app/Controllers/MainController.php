@@ -33,7 +33,7 @@ class MainController extends CoreController {
             $errorList[] = "Le password ne peut pas être vide !";
         }
         $user = User::findBylogin($login);
-        //dump('bonjour',$user->getLogin()) ;
+        // dump("bonjour $user->getLogin()") ;
         if($user == false) {
             $errors[] = "Adresse email ou mot de passe incorrect.";
         } 
@@ -42,8 +42,9 @@ class MainController extends CoreController {
                 echo "Bienvenue". $user->getLogin()." !";
                 $_SESSION['userId'] = $user->getId();
                 $_SESSION['userObject'] = $user;
+                $login=$user->getLogin() ;
                 //dump ($_SESSION) ;
-                header("Location: " . $this->router->generate('user-space',['user' => $user->getLogin()]));
+                header("Location: " . $this->router->generate('user-space',['login' => $user->getLogin()]));
                 //header("Location: " .$this->router->generate('user-space', ['login' => $user->getLogin()]));
                 exit;       
             } 
@@ -55,7 +56,10 @@ class MainController extends CoreController {
             }
         }
         //dump ($_SESSION) ;
-        $this->show('main/home',['errors'=>$errors]); 
+        $this->show('main/home',[
+            'errors'=>$errors,
+            'login'=>$login,
+        ]); 
     }
 
     public function logout()
@@ -67,7 +71,7 @@ class MainController extends CoreController {
         // si on veut éviter de détruire complètement la session, on peut simplement supprimer les données 'userId' et 'userObject'
         unset($_SESSION['userId']);
         unset($_SESSION['userObject']);
-        dump ($_SESSION) ;
+        //dump ($_SESSION) ;
         // une fois l'utilisateur déconnecté, on le redirige !
         header('Location: ' . $this->router->generate('main-home'));
         exit;

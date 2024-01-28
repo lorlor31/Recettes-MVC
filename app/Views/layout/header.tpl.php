@@ -12,40 +12,54 @@
     <link rel="stylesheet" href="<?=$BASE_URL."/assets/css/index.css"?>">
 
 
-    <?= require __DIR__ ."/../layout/backToHome.tpl.php"; ?>
+
+    <!-- Menu principal  -->
+    <?= require __DIR__ ."/../layout/main-header.tpl.php"; ?>
+    <!-- Menu des recettes  -->
     <nav>
     <?php foreach ($recipesList as $recipe) { ?>
         <a href=<?=$router->generate('catalog-recettes', ['id' => $recipe->getID()])?>> <?=$recipe->getTitle() ?> </a>
     <?php } ?>
     </nav>
+    
+    <nav>
 
-    <div>
+    </nav>
+
+    <!-- Formulaire de connexion si pas connecté -->
+    <div id="login-form">
         <?php if (empty($_SESSION['userObject']))  {?>
         <form action="" method="POST">
-            <h2> <?=
-            "Connectez-vous !";?>
+            <h2> <?="Connectez-vous !";?>
             </h2>
             <label for="login">Login</label>
             <input type="text" name="login" id="login" value="" placeholder="login">
             <label for="pwd">Password</label>
             <input type="text" name="pwd" id="pwd">
             <button>Connexion</button>
+            <input type="hidden" name="csrftoken" value="<?= $this->generateCSRFToken() ?>">
         </form>
     </div>
+
+    <!-- Affichage de bienvenue et autres si connecté -->
     <?php } else {?>
-        <?php $user=$_SESSION['userObject'] ;
-        $login=$user->getLogin() ;
-        echo "$login est connecgé" ;
-        ?>
-
-
         
+        <?php 
+        dump ($_SESSION['userObject'] ) ;
+        $user=$_SESSION['userObject'] ;
+        $login=$user->getLogin() ;
+        echo "$login est connecté" ; ?>
+        <a  href=<?=$router->generate("main-logout")?>> Se déconnecter </a>
+        <?php 
+            if ($user->getRole()==='admin' ) {
+        ?>
+        <nav>
+            <a  href=<?=$router->generate("user-list")?>> Liste </a> 
+            <a  href=<?=$router->generate("user-add")?>> Ajout </a> 
+        </nav>
+           
+        <?php } ?>
 
     <?php }   ?>
-    //$login=$user->getLogin();
-    //echo "Vous êtes connecté en tant que $login" ;
-    //dump ($login) ;
-    //dump($_SESSION['userObject']);
 
-    ?>
     
