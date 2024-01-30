@@ -3,9 +3,9 @@
 //pourquoi j'arrive à récupérer les propriétés de la recette $recipe qui est censése sappeler
 //currentRecipe ???
 //dump($viewData) ;
-$title = $recipe->getTitle() ;
-$picture= $recipe->getPicture() ;
-$persons= $recipe->getPersons() ;
+$title = $currentRecipe->getTitle() ;
+$picture= $currentRecipe->getPicture() ;
+$persons= $currentRecipe->getPersons() ;
 
 
 ?>

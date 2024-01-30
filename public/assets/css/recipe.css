@@ -1,14 +1,7 @@
 /* button{
     all: unset;
 } */
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Acme', sans-serif;
-}
-
-body, main, section {
+main, section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -80,13 +73,6 @@ body, main, section {
     display: none;
 }
 
-h1{
-font-family: 'Maitree', serif;
-}
-
-ul {
-    margin : 0 ;
-}
 
 section {
     margin: 1rem;
@@ -121,22 +107,4 @@ section {
 
 .titreRose{
     background-color: deeppink;
-}
-
-/* //css de la nav à bouger */
-nav{
-    font-family: 'Rasa', serif;
-    display: flex;
-    flex-direction: row;
-    margin: 3rem;
-}
-
-nav a{
-    margin: 0.7rem;
-    padding: 0.7rem;
-    border : 2px solid brown;
-    border-radius: 5px;
-    font-size: 2rem;
-    text-decoration: none;
-    background-color: lightpink;
 }
