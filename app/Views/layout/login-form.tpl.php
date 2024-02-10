@@ -1,8 +1,22 @@
+//a redecouper en plusieurs tpl ??
+
 <div class="main-header">
     
     <nav class="main-nav">
+        <a class=" " href=<?=$router->generate('main-home')?> >Retour à l'accueil </a> 
         <a class="backToHome" href=<?=$router->generate('main-home')?> >Retour à l'accueil </a> 
-        <a class="backToHome" href=<?=$router->generate('main-home')?> >Retour à l'accueil </a> 
+
+        <?php 
+    if(isset($_SESSION['userObject'] )){
+        $user=$_SESSION['userObject'] ;
+        if ($user->getRole()==='admin' ) {
+        ?>
+        <nav class="adminNav">
+            <a  href=<?=$router->generate("user-list")?>> Liste </a> 
+            <a  href=<?=$router->generate("user-add")?>> Ajout </a> 
+        </nav>
+        <?php } ?>
+<?php } ?>  
     </nav>
 
     <h1> SPEEDY RECETTES</h1>
@@ -38,14 +52,5 @@
     <?php }   ?>
 </div>
 
-<?php 
-    if(isset($_SESSION['userObject'] )){
-        if ($user->getRole()==='admin' ) {
-        ?>
-        <nav class="adminNav">
-            <a  href=<?=$router->generate("user-list")?>> Liste </a> 
-            <a  href=<?=$router->generate("user-add")?>> Ajout </a> 
-        </nav>
-        <?php } ?>
-<?php } ?>  
+
             

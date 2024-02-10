@@ -55,7 +55,21 @@ $router->map('POST', '/user/add', [
     'method' => 'addPost'
 ], 'user-addPost');
 
+$router->map('GET', '/user/update/[i:id]', [
+    'controller' => 'UserController',
+    'method' => 'update'
+], 'user-update');
 
+$router->map('POST', '/user/update/[i:id]', [
+    'controller' => 'UserController',
+    'method' => 'updatePost'
+], 'user-updatePost');
+
+
+$router->map('POST', '/user/delete/[i:id]', [
+    'controller' => 'UserController',
+    'method' => 'delete'
+], 'user-delete');
 
 // // ROUTES SECURITY
 

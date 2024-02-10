@@ -41,7 +41,17 @@ class User extends CoreModel {
         $stmt->bindParam(':login', $login);
         $stmt->execute();
         $user =  $stmt->fetchObject(self::class);
-        //print_r($user);
+        print_r($user);
+		return $user;
+	}
+
+    public static function find($id){
+		$pdo = Database::getPDO();
+        $sql = "SELECT users.* FROM users WHERE users.id =:id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $user =  $stmt->fetchObject(self::class);
 		return $user;
 	}
 
@@ -53,6 +63,20 @@ class User extends CoreModel {
         $results = $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
         return $results;
     }
+
+    public function delete() 
+    {
+        $pdo = Database::getPDO();
+        $sql = "
+            DELETE FROM `user`
+            WHERE id = :id
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        return $stmt->execute();
+    }
+
+
 
      /**
      * Get the value of login

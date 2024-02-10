@@ -80,7 +80,9 @@ public function __construct($router, $match=[]){
     $acl = [
             //'login' => page accessible à tout le monde, donc on ne la met pas dans le tableau !
             // 'main-home' => ['admin', 'catalog-manager'],
-            //'user-list' => ['admin'],
+            'user-list' => ['admin'],
+            'user-update' => ['admin'],
+            'user-delete' => ['admin'],
             //'user-add' => ['admin'],
             //! IL NE FAUT PAS OUBLIER DE SECURISER NOS ROUTES EN POST !
             //'user-addPost' => ['admin']
